@@ -47,7 +47,7 @@ const products: Product[] = [
     name: 'Drone Profissional GT8 4K Ultra HD',
     category: 'Eletrônicos',
     price: 0,
-    image: 'photo-1473968512647-3e447244af8f',
+    image: 'https://http2.mlstatic.com/D_NQ_NP_2X_652294-MLA116382175089_082026-F.webp',
     tag: 'CÂMERA 4K',
     store: 'Mercado Livre',
     colors: 'Drone profissional GT8 com câmera 4K'
@@ -107,7 +107,7 @@ const categories = [
 ]
 
 const money = (value: number) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-const imageUrl = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=700&q=85`
+const imageUrl = (id: string) => id.startsWith('http') ? id : `https://images.unsplash.com/${id}?auto=format&fit=crop&w=700&q=85`
 
 function App() {
   const [category, setCategory] = useState('Tudo')
@@ -157,7 +157,7 @@ function App() {
         <nav className={`main-nav ${mobileMenu ? 'nav-open' : ''}`} aria-label="Navegação principal">
           <a className="nav-link active" href="#achados" onClick={() => setMobileMenu(false)}>Descobrir</a>
           <a className="nav-link" href="#categorias" onClick={() => setMobileMenu(false)}>Categorias</a>
-          <button className={`nav-link favorites-nav ${favoritesOnly ? 'selected' : ''}`} onClick={() => { setFavoritesOnly(!favoritesOnly); scrollToDeals(); setMobileMenu(false) }}><Heart size={16} fill={favoritesOnly ? 'currentColor' : 'none'} /> {favoritesOnly ? 'Ver todos' : 'Meus favoritos'} <span>{favorites.length}</span></button>
+          <button className={`nav-link favorites-nav ${favoritesOnly ? 'selected' : ''}`} onClick={() => { setFavoritesOnly(!favoritesOnly); scrollToDeals(); setMobileMenu(false) }}><Heart size={16} fill={favoritesOnly ? 'currentColor' : 'none'} /> {favoritesOnly ? 'Ver todos' : 'Meus favoritos'}<span>{favorites.length}</span></button>
         </nav>
         <div className="header-actions">
           <button className="header-heart" aria-label="Ver favoritos" onClick={() => { setFavoritesOnly(!favoritesOnly); scrollToDeals() }}><Heart size={19} /><span>{favorites.length}</span></button>
@@ -195,7 +195,7 @@ function App() {
         </section>
 
         <section className="catalog-section" id="achados">
-          <div className="section-heading"><div><div className="section-kicker">A gente garimpou pra você</div><h2>Achados que <span>valem o clique.</span></h2><p>Boas descobertas, preços honestos e aquele “era isso que eu precisava”.</p></div><button className={`saved-button ${favoritesOnly ? 'saved-active' : ''}`} onClick={() => setFavoritesOnly(!favoritesOnly)}><Heart size={16} fill={favoritesOnly ? 'currentColor' : 'none'} /> {favoritesOnly ? 'Ver todos' : 'Meus favoritos'} <span>{favorites.length}</span></button></div>
+          <div className="section-heading"><div><div className="section-kicker">A gente garimpou pra você</div><h2>Achados que <span>valem o clique.</span></h2><p>Boas descobertas, preços honestos e muita qualidade — sem exagero.</p></div><button className="saved-button" onClick={() => setFavoritesOnly(!favoritesOnly)}><Heart size={16} fill={favoritesOnly ? 'currentColor' : 'none'} /> {favoritesOnly ? 'Ver todos' : 'Meus favoritos'}<span>{favorites.length}</span></button></div>
           <div className="catalog-toolbar" id="categorias">
             <div className="category-list" role="tablist" aria-label="Categorias de produtos">{categories.map((item) => <button key={item.name} role="tab" aria-selected={category === item.name} className={`category-chip ${category === item.name ? 'category-active' : ''}`} onClick={() => { setCategory(item.name); setFavoritesOnly(false) }}><span>{item.emoji}</span>{item.name}</button>)}</div>
             <div className="toolbar-controls"><label className="search-box"><Search size={16} /><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar por nome ou loja" /></label><button className="sort-button" type="button" onClick={cycleSort}><SlidersHorizontal size={15} /> <span>{sort}</span> <ChevronDown size={14} /></button></div>
@@ -204,15 +204,15 @@ function App() {
           {filtered.length > 0 ? <div className="product-grid">{filtered.map((product) => {
             const discount = product.price > 0 && product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
             const favorite = favorites.includes(product.id)
-            return <article className="product-card" key={product.id}><div className="product-image-wrap"><img className="product-image" src={imageUrl(product.image)} alt={product.colors} loading="lazy" />{product.tag && <span className="product-tag">{product.tag}</span>}<button className={`heart-button ${favorite ? 'heart-active' : ''}`} aria-label={favorite ? `Remover ${product.name} dos favoritos` : `Adicionar ${product.name} aos favoritos`} onClick={() => toggleFavorite(product.id)}><Heart size={17} fill={favorite ? 'currentColor' : 'none'} /></button>{discount > 0 && <span className="discount-badge">-{discount}%</span>}</div><div className="product-info"><div className="product-meta"><span>{product.category}</span>{product.rating != null && product.reviews != null && <span className="rating"><Star size={12} fill="currentColor" /> {product.rating} <small>({product.reviews.toLocaleString('pt-BR')})</small></span>}</div><h3>{product.name}</h3>{product.oldPrice != null && <div className="old-price">{money(product.oldPrice)}</div>}{product.price > 0 ? <><div className="price-line"><strong>{money(product.price)}</strong><span>no Pix</span></div>{(product.id === 9 || product.id === 10) && <div className="installments">ou 3x de {money(product.price / 3)} sem juros</div>}</> : <div className="price-line"><strong>Confira o preço na loja</strong></div>}<div className="product-bottom"><span className="store-name"><span className="store-dot" /> {product.store}</span><a className="buy-button" href={productLinks[product.id]} target="_blank" rel="noreferrer" aria-label={`Ver ${product.name} na loja ${product.store}`}>Ver achado <ArrowRight size={14} /></a></div></div></article>
+            return <article className="product-card" key={product.id}><div className="product-image-wrap"><img className="product-image" src={imageUrl(product.image)} alt={product.colors} loading="lazy" />{product.tag && <span className="product-tag">{product.tag}</span>}<button className={`heart-button ${favorite ? 'heart-active' : ''}`} aria-label={favorite ? `Remover ${product.name} dos favoritos` : `Adicionar ${product.name} aos favoritos`} onClick={() => toggleFavorite(product.id)}><Heart size={17} fill={favorite ? 'currentColor' : 'none'} /></button>{discount > 0 && <span className="discount-badge">{discount}%</span>}</div><div className="product-info"><div className="product-meta"><span>{product.category}</span>{product.rating !== undefined && product.reviews !== undefined && <span className="rating"><Star size={12} fill="currentColor" /> {product.rating} <small>({product.reviews.toLocaleString('pt-BR')})</small></span>}</div><h3>{product.name}</h3>{product.oldPrice !== undefined && <div className="old-price">{money(product.oldPrice)}</div>}{product.price > 0 ? <div className="price-line"><strong>{money(product.price)}</strong><span>no Pix</span></div> : <div className="price-line"><strong>Confira o preço</strong><span>na loja</span></div>}<div className="product-bottom"><span className="store-name"><span className="store-dot" />{product.store}</span><a className="buy-button" href={productLinks[product.id]} target="_blank" rel="noreferrer" aria-label={`Ver ${product.name} na loja ${product.store}`}>Ver achado <ArrowRight size={14} /></a></div></div></article>
           })}</div> : <div className="empty-state"><span className="empty-icon"><Search size={22} /></span><h3>Nenhum achado por aqui (ainda).</h3><p>Tente outra busca ou escolha uma categoria diferente.</p><button className="button-primary" onClick={() => { setQuery(''); setCategory('Tudo'); setFavoritesOnly(false) }}>Ver todos os achados <ArrowRight size={16} /></button></div>}
           <div className="catalog-footer"><span><Check size={14} /> Preços e disponibilidade podem mudar na loja.</span><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>De volta ao topo <ArrowRight size={14} /></button></div>
         </section>
 
-        <section className="newsletter"><div className="newsletter-spark">✳</div><div className="newsletter-copy"><span className="newsletter-label">Uma boa dica nunca é demais</span><h2>Achados bons de verdade.</h2><p>Compras inteligentes, selecionadas com cuidado.</p></div></section>
+        <section className="newsletter"><div className="newsletter-spark">✳</div><div className="newsletter-copy"><span className="newsletter-label">Uma boa dica nunca é demais</span><h2>Achados bons de verdade.</h2><p>Compara inteligente, seleciona com cuidado e compra sem stress.</p></div></section>
       </main>
 
-      <footer className="footer"><a className="brand footer-brand" href="#inicio"><span className="brand-mark">n<span>.</span></span><span className="brand-name">nexo</span></a><p>Boas descobertas, preços honestos e aquele “era isso que eu precisava”.</p><div className="affiliate-note"><ShoppingBag size={13} /> Alguns links podem gerar comissão pra gente — sem custo extra pra você.</div></footer>
+      <footer className="footer"><a className="brand footer-brand" href="#inicio"><span className="brand-mark">n<span>.</span></span><span className="brand-name">nexo</span></a><p>Boas descobertas, preços honestos e escolha certeira.</p><div className="affiliate-note"><ShoppingBag size={13} /> Alguns links podem gerar comissão pra gente — sem custo extra pra você.</div></footer>
     </div>
   )
 }
