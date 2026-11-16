@@ -74,6 +74,14 @@ function App() {
     })
   }
 
+  const cycleSort = () => {
+    setSort((current) => {
+      const options = ['Recomendados', 'Menor preço', 'Maior desconto', 'Melhor avaliados']
+      const index = options.indexOf(current)
+      return options[(index + 1) % options.length]
+    })
+  }
+
   const filtered = useMemo(() => {
     const result = products.filter((product) => {
       const matchesCategory = category === 'Tudo' || product.category === category
@@ -137,7 +145,7 @@ function App() {
           <div className="section-heading"><div><div className="section-kicker">A gente garimpou pra você</div><h2>Achados que <span>valem o clique.</span></h2><p>Boas descobertas, preços honestos e aquele “era isso que eu precisava”.</p></div><button className={`saved-button ${favoritesOnly ? 'saved-active' : ''}`} onClick={() => setFavoritesOnly(!favoritesOnly)}><Heart size={16} fill={favoritesOnly ? 'currentColor' : 'none'} /> {favoritesOnly ? 'Ver todos' : 'Meus favoritos'} <span>{favorites.length}</span></button></div>
           <div className="catalog-toolbar" id="categorias">
             <div className="category-list" role="tablist" aria-label="Categorias de produtos">{categories.map((item) => <button key={item.name} role="tab" aria-selected={category === item.name} className={`category-chip ${category === item.name ? 'category-active' : ''}`} onClick={() => { setCategory(item.name); setFavoritesOnly(false) }}><span>{item.emoji}</span>{item.name}</button>)}</div>
-            <div className="toolbar-controls"><label className="search-box"><Search size={16} /><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar por nome ou loja" /></label><button className="sort-button" type="button"><SlidersHorizontal size={15} /> <span>{sort}</span> <ChevronDown size={14} /></button></div>
+            <div className="toolbar-controls"><label className="search-box"><Search size={16} /><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar por nome ou loja" /></label><button className="sort-button" type="button" onClick={cycleSort}><SlidersHorizontal size={15} /> <span>{sort}</span> <ChevronDown size={14} /></button></div>
           </div>
           <div className="results-line"><span>{favoritesOnly ? 'SEUS FAVORITOS' : 'SELECIONADOS PRA VOCÊ'}</span><span>{filtered.length} {filtered.length === 1 ? 'achado' : 'achados'}</span></div>
           {filtered.length > 0 ? <div className="product-grid">{filtered.map((product) => {
