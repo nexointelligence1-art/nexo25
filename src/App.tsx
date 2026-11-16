@@ -81,7 +81,7 @@ const products: Product[] = [
     category: 'Eletrônicos',
     price: 2592,
     oldPrice: 2881,
-    image: 'https://http2.mlstatic.com/D_NQ_NP_2X_982007-MLU71256898699_082023-F.jpg',
+    image: 'https://http2.mlstatic.com/D_NQ_NP_2X_927000-MLU72881012214_112023-F.webp',
     tag: 'BLACK FRIDAY',
     store: 'Mercado Livre',
     colors: 'Console PlayStation 4 Slim 1TB com dois controles'
