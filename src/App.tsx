@@ -24,6 +24,32 @@ const products: Product[] = [
   { id: 6, name: 'Mochila Everyday 20L', category: 'Moda', price: 179.9, oldPrice: 259.9, rating: 4.9, reviews: 754, image: 'photo-1553062407-98eeb64c6a62', tag: 'QUERIDINHO', store: 'Amazon', colors: 'Mochila preta para o dia a dia' },
   { id: 7, name: 'Câmera instantânea Mini', category: 'Eletrônicos', price: 389.9, oldPrice: 499.9, rating: 4.7, reviews: 432, image: 'photo-1516035069371-29a1b244cc32', store: 'Mercado Livre', colors: 'Câmera fotográfica compacta' },
   { id: 8, name: 'Vaso orgânico em cerâmica', category: 'Casa & cozinha', price: 89.9, oldPrice: 119.9, rating: 4.8, reviews: 318, image: 'photo-1578500494198-246f612d3b3d', store: 'Westwing', colors: 'Vaso decorativo de cerâmica' },
+  {
+    id: 9,
+    name: 'Samsung Galaxy A07',
+    category: 'Eletrônicos',
+    price: 674,
+    oldPrice: 899,
+    rating: 4.6,
+    reviews: 1280,
+    image: 'photo-1511707171634-5f897ff02aa9',
+    tag: 'OFERTA',
+    store: 'Mercado Livre',
+    colors: 'Smartphone Samsung Galaxy A07'
+  },
+  {
+    id: 10,
+    name: 'Fone Bluetooth TWS Kaidi KD-771',
+    category: 'Eletrônicos',
+    price: 59,
+    oldPrice: 99,
+    rating: 4.5,
+    reviews: 890,
+    image: 'photo-1590658268037-6bf12165a8df',
+    tag: 'ACHADO',
+    store: 'Mercado Livre',
+    colors: 'Fone Bluetooth TWS branco'
+  },
 ]
 
 const categories = [
@@ -125,7 +151,11 @@ function App() {
           {filtered.length > 0 ? <div className="product-grid">{filtered.map((product) => {
             const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0
             const favorite = favorites.includes(product.id)
-            return <article className="product-card" key={product.id}><div className="product-image-wrap"><img className="product-image" src={imageUrl(product.image)} alt={product.colors} loading="lazy" />{product.tag && <span className="product-tag">{product.tag}</span>}<button className={`heart-button ${favorite ? 'heart-active' : ''}`} aria-label={favorite ? `Remover ${product.name} dos favoritos` : `Adicionar ${product.name} aos favoritos`} onClick={() => toggleFavorite(product.id)}><Heart size={17} fill={favorite ? 'currentColor' : 'none'} /></button><span className="discount-badge">-{discount}%</span></div><div className="product-info"><div className="product-meta"><span>{product.category}</span><span className="rating"><Star size={12} fill="currentColor" /> {product.rating} <small>({product.reviews.toLocaleString('pt-BR')})</small></span></div><h3>{product.name}</h3><div className="old-price">{money(product.oldPrice ?? product.price)}</div><div className="price-line"><strong>{money(product.price)}</strong><span>no Pix</span></div><div className="installments">ou 3x de {money(product.price / 3)} sem juros</div><div className="product-bottom"><span className="store-name"><span className="store-dot" /> {product.store}</span><a className="buy-button" href={`https://www.google.com/search?q=${encodeURIComponent(`${product.name} ${product.store}`)}`} target="_blank" rel="noreferrer" aria-label={`Buscar ${product.name} na loja ${product.store}`}>Ver achado <ArrowRight size={14} /></a></div></div></article>
+            return <article className="product-card" key={product.id}><div className="product-image-wrap"><img className="product-image" src={imageUrl(product.image)} alt={product.colors} loading="lazy" />{product.tag && <span className="product-tag">{product.tag}</span>}<button className={`heart-button ${favorite ? 'heart-active' : ''}`} aria-label={favorite ? `Remover ${product.name} dos favoritos` : `Adicionar ${product.name} aos favoritos`} onClick={() => toggleFavorite(product.id)}><Heart size={17} fill={favorite ? 'currentColor' : 'none'} /></button><span className="discount-badge">-{discount}%</span></div><div className="product-info"><div className="product-meta"><span>{product.category}</span><span className="rating"><Star size={12} fill="currentColor" /> {product.rating} <small>({product.reviews.toLocaleString('pt-BR')})</small></span></div><h3>{product.name}</h3><div className="old-price">{money(product.oldPrice ?? product.price)}</div><div className="price-line"><strong>{money(product.price)}</strong><span>no Pix</span></div><div className="installments">ou 3x de {money(product.price / 3)} sem juros</div><div className="product-bottom"><span className="store-name"><span className="store-dot" /> {product.store}</span><a className="buy-button" href={
+              product.id === 9 ? 'https://meli.la/1hbjCgP' :
+              product.id === 10 ? 'https://meli.la/2Jza2Ax' :
+              `https://www.google.com/search?q=${encodeURIComponent(`${product.name} ${product.store}`)}`
+            } target="_blank" rel="noreferrer" aria-label={`Buscar ${product.name} na loja ${product.store}`}>Ver achado <ArrowRight size={14} /></a></div></div></article>
           })}</div> : <div className="empty-state"><span className="empty-icon"><Search size={22} /></span><h3>Nenhum achado por aqui (ainda).</h3><p>Tente outra busca ou escolha uma categoria diferente.</p><button className="button-primary" onClick={() => { setQuery(''); setCategory('Tudo'); setFavoritesOnly(false) }}>Ver todos os achados <ArrowRight size={16} /></button></div>}
           <div className="catalog-footer"><span><Check size={14} /> Preços e disponibilidade podem mudar na loja.</span><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>De volta ao topo <ArrowRight size={14} /></button></div>
         </section>
