@@ -81,7 +81,7 @@ const products: Product[] = [
     category: 'Eletrônicos',
     price: 2592,
     oldPrice: 2881,
-    image: 'photo-1606813907291-d86efa9b94db',
+    image: 'https://img.olx.com.br/images/57/570680580532231.webp',
     tag: 'BLACK FRIDAY',
     store: 'Mercado Livre',
     colors: 'Console PlayStation 4 Slim 1TB com dois controles'
